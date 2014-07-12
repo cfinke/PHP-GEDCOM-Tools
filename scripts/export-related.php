@@ -28,6 +28,12 @@ if ( $cli_options['gedcom']{0} != '/' || $cli_options['out']{0} != '/' ) {
 }
 
 $entries = build_gedcom_array( $cli_options['gedcom'] );
+
+if ( false === $entries ) {
+	file_put_contents( 'php://stderr', "Couldn't read GEDCOM file: " . $cli_options['gedcom'] . "\n" );
+	die;	
+}
+
 $tree_base = find_person( $cli_options['person'], $entries );
 
 if ( ! $tree_base ) {

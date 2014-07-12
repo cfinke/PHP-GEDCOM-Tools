@@ -252,6 +252,10 @@ class GEDCOM_Entry {
 
 function build_gedcom_array( $gedcom_file_path ) {
 	$handle = fopen( $gedcom_file_path, "r" );
+	
+	if ( ! $handle ) {
+		return false;
+	}
 
 	$entries = array();
 
