@@ -27,6 +27,7 @@ if ( false === $entries ) {
 }
 
 $ages = array();
+$this_morning = strtotime( date( "Y-m-d 00:00:00" ) );
 
 foreach ( $entries as $entry ) {
 	if ( $entry->block_type != 'INDI' ) {
@@ -40,7 +41,18 @@ foreach ( $entries as $entry ) {
 		continue;
 	}
 	
-	$this_persons_age_at_death = strtotime( $death_dates[0] ) - strtotime( $birth_dates[0] );
+	$death_timestamp = strtotime( $death_dates[0] );
+	$birth_timestamp = strtotime( $birth_dates[0] );
+	
+	if ( $death_timestamp > $this_morning || $birth_timestamp > $this_morning ) {
+		continue;
+	}
+	
+	if ( false === $death_timestamp || false === $birth_timestamp ) {
+		continue;
+	}
+	
+	$this_persons_age_at_death = $death_timestamp - $birth_timestamp;
 	$ages[] = round( $this_persons_age_at_death / 60 / 60 / 24 / 365 );
 }
 
