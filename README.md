@@ -5,7 +5,7 @@ Tools for interacting with GEDCOM (family tree) files. These have only been test
 
 export-branch.php
 -----------------
-This will export a new GEDCOM file containing only the person specified, their descendants and descendants' spouses, and any events or other entries related to those people.
+Export a new GEDCOM file containing only the person specified, their descendants and descendants' spouses, and any events or other entries related to those people.
 
 This is handy for when you have a massive family tree constructed but would like to share only a portion of it with someone else.
 
@@ -17,7 +17,7 @@ The `--person` argument must match exactly the name of the person you want at th
 
 export-related.php
 ------------------
-This will export a new GEDCOM file containing only the person specified and any other people related by blood. This will exclude spouses of blood relatives, but would include, for example, children, grandchildren, cousins, grandparents, and half-siblings.
+Export a new GEDCOM file containing only the person specified and any other people related by blood. This will exclude spouses of blood relatives, but would include, for example, children, grandchildren, cousins, grandparents, and half-siblings.
 
 Usage:
 
@@ -27,7 +27,7 @@ The `--branch` argument must match exactly the name of the person you want the t
 
 get-death-age-stats.php
 -----------------------
-This will calculate the average and median age at death for everyone in a GEDCOM file.
+Calculate the average and median age at death for everyone in a GEDCOM file.
 
 Usage:
 
@@ -42,7 +42,7 @@ Median age at death: 69 years
 
 get-gender-count.php
 --------------------
-This will tally the count of the genders represented in a GEDCOM file.
+Tally the count of the genders represented in a GEDCOM file.
 
 Usage: 
 
