@@ -24,3 +24,18 @@ Usage:
 `./scripts/export-related.php --gedcom=/path/to/existing-tree.ged --person='John Doe' --out=/path/to/new-tree.ged
 
 The `--branch` argument must match exactly the name of the person you want the tree based on.
+
+get-death-age-stats.php
+-----------------------
+This will calculate the average and median age at death for everyone in a GEDCOM file.
+
+Usage:
+
+`./scripts/get-death-age-stats.php --gedcom=/path/to/existing-tree.ged`
+
+Example output:
+
+```
+Average age at death: 56 years
+Median age at death: 69 years
+```
