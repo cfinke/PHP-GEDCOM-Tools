@@ -21,7 +21,7 @@ This will export a new GEDCOM file containing only the person specified and any 
 
 Usage:
 
-`./scripts/export-related.php --gedcom=/path/to/existing-tree.ged --person='John Doe' --out=/path/to/new-tree.ged
+`./scripts/export-related.php --gedcom=/path/to/existing-tree.ged --person='John Doe' --out=/path/to/new-tree.ged`
 
 The `--branch` argument must match exactly the name of the person you want the tree based on.
 
