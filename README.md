@@ -15,3 +15,12 @@ Usage:
 
 The `--person` argument must match exactly the name of the person you want at the top of the tree.
 
+export-related.php
+------------------
+This will export a new GEDCOM file containing only the person specified and any other people related by blood. This will exclude spouses of blood relatives, but would include, for example, children, grandchildren, cousins, grandparents, and half-siblings.
+
+Usage:
+
+`./scripts/export-related.php --gedcom=/path/to/existing-tree.ged --person='John Doe' --out=/path/to/new-tree.ged
+
+The `--branch` argument must match exactly the name of the person you want the tree based on.

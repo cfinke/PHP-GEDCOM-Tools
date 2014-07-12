@@ -24,8 +24,23 @@ class GEDCOM_Entry {
 		$this->data = $lines;
 	}
 	
+	/**
+	 * Given a set of lines like:
+	 *
+	 * 0 @P1@ INDI 
+	 * 1 NAME John /Doe/
+	 * 1 FAMS @F181@
+	 * 1 FAMS @F182@
+	 *
+	 * call getRelatedEntries( 'FAMS' ) to get an array of the GEDCOM_Entry objects with IDs @F181@ and @F182@
+	 *
+	 * @param string $type
+	 * @return array An array of GEDCOM_Entry objects.
+	 */
 	function getRelatedEntries( $type ) {
 		global $entries;
+		
+		$type = strtoupper( $type );
 		
 		$rv = array();
 		
@@ -33,7 +48,7 @@ class GEDCOM_Entry {
 			$line_parts = explode( " ", $line, 3 );
 			
 			if ( count( $line_parts ) > 2 ) {
-				if ( $line_parts[1] == $type && $line_parts[2]{0} == '@' ) {
+				if ( strtoupper( $line_parts[1] ) == $type && $line_parts[2]{0} == '@' ) {
 					$rv[] = $entries[ $line_parts[2] ];
 				}
 			}
@@ -42,22 +57,196 @@ class GEDCOM_Entry {
 		return $rv;
 	}
 	
+	/**
+	 * Given a set of lines like:
+	 *
+	 * 0 @P1@ INDI
+	 * 1 NAME John /Doe/
+	 * 1 NAME Jonathan /Doe/
+	 *
+	 * call getEntryValues( 'NAME' ) to get array( 'John /Doe/', 'Jonathan /Doe/' )
+	 *
+	 * @param string $type
+	 * @return array An array of string values.
+	 */
 	function getEntryValues( $type ) {
-		global $entries;
-		
+		$type = strtoupper( $type );
+
 		$rv = array();
 		
 		foreach ( $this->data as $line ) {
 			$line_parts = explode( " ", $line, 3 );
 			
-			if ( count( $line_parts ) > 2 ) {
-				if ( $line_parts[1] == $type ) {
-					$rv[] = $line_parts[2];
+			if ( count( $line_parts ) > 1 ) {
+				if ( strtoupper( $line_parts[1] ) == $type ) {
+					if ( count( $line_parts ) > 2 ) {
+						$rv[] = $line_parts[2];
+					}
+					else {
+						$rv[] = '';
+					}
 				}
 			}
 		}
 		
 		return $rv;
+	}
+	
+	/**
+	 * Given a set of lines like:
+	 *
+	 * 0 @P1@ INDI
+	 * 1 BIRT
+	 * 2 DATE 1901-01-01
+	 * 1 NAME John /Doe/
+	 *
+	 * call getEntrySubValues( 'BIRT', 'DATE' ) to get array( '1901-01-01' )
+	 *
+	 * @param string $type
+	 * @param string $subtype
+	 * @return array An array of string values.
+	 */
+	function getEntrySubValues( $type, $subtype ) {
+		$type = strtoupper( $type );
+		$subtype = strtoupper( $subtype );
+		
+		$rv = array();
+		
+		$in_type = false;
+		$level = null;
+		
+		foreach ( $this->data as $line ) {
+			$line_parts = explode( " ", $line, 3 );
+			
+			if ( count( $line_parts ) > 1 ) {
+				if ( ! $in_type ) {
+					if ( strtoupper( $line_parts[1] ) == $type ) {
+						$in_type = true;
+						$level = $line_parts[0];
+					}
+				}
+				else {
+					if ( $line_parts[0] <= $level ) {
+						$in_type = false;
+						$level = null;
+					}
+					else if ( $line_parts[0] == $level + 1 && strtoupper( $line_parts[1] ) == $subtype ) {
+						$rv[] = $line_parts[2];
+					}
+				}
+			}
+		}
+		
+		return $rv;
+	}
+	
+	/**
+	 * Given a set of lines like this:
+	 *
+	 * 0 @F19@ FAM
+	 * 1 HUSB @P5@
+	 * 1 WIFE @P4@
+	 * 1 CHIL @P151@
+	 * 2 _FREL Natural
+	 * 2 _MREL Natural
+	 * 1 CHIL @P150@
+	 * 2 _FREL Natural
+	 * 2 _MREL Natural
+	 * 1 MARR
+	 * 2 DATE 19 Jun 1976
+	 * 
+	 * Calling getSubBlocks( 'CHIL' ) will return GEDCOM_Entry objects with the following $data variables.
+	 *
+	 * 1 CHIL @P151@
+	 * 2 _FREL Natural
+	 * 2 _MREL Natural
+	 *
+	 * and
+	 *
+	 * 1 CHIL @P150@
+	 * 2 _FREL Natural
+	 * 2 _MREL Natural
+	 *
+	 */
+	function getSubBlocks( $type ) {
+		$type = strtoupper( $type );
+		
+		$lines = array();
+		$in_type = false;
+		$level = null;
+		
+		foreach ( $this->data as $line ) {
+			$line_parts = explode( " ", $line, 3 );
+			
+			if ( count( $line_parts ) > 1 ) {
+				if ( $in_type && (int) $line_parts[0] <= $level ) {
+					$blocks[] = new GEDCOM_Entry( "0 @_@ PARTIAL\n" . implode( "\n", $lines ) );
+					$lines = array();
+					$in_type = false;
+					$level = null;
+				}
+
+				if ( ! $in_type ) {
+					if ( strtoupper( $line_parts[1] ) == $type ) {
+						$in_type = true;
+						$level = $line_parts[0];
+						$lines[] = $line;
+					}
+				}
+				else {
+					if ( (int) $line_parts[0] > $level ) {
+						$lines[] = $line;
+					}
+				}
+			}
+			else {
+				$in_type = false;
+				$level = null;
+			}
+		}
+		
+		if ( ! empty( $lines ) ) {
+			$blocks[] = new GEDCOM_Entry( "0 @_@ PARTIAL\n" . implode( "\n", $lines ) );
+		}
+		
+		return $blocks;
+	}
+	
+	/**
+	 * Given an associative array of entries, remove references to any entries not in the list.
+	 * Useful for stripping a GEDCOM_Entry of references to entries that were removed during
+	 * tree manipulation.
+	 */
+	function removeMissingReferences( $existing_references ) {
+		$new_data = array();
+		
+		$in_removal = false;
+		$level = null;
+
+		foreach ( $this->data as $line ) {
+			$line_parts = explode( " ", $line );
+			
+			if ( $in_removal && $line_parts[0] > $level ) {
+				continue;
+			}
+			
+			if ( $in_removal && $line_parts[0] <= $level ) {
+				$in_removal = false;
+				$level = null;
+			}
+			
+			if ( count( $line_parts ) == 3 && $line_parts[2]{0} == '@' && substr( $line_parts[2], -1 ) == '@' && ! isset( $existing_references[ $line_parts[2] ] ) ) {
+				$in_removal = true;
+				$level = $line_parts[0];
+			}
+			else {
+				$new_data[] = $line;
+			}
+		}
+		
+		$this->data = $new_data;
+		
+		return;
 	}
 }
 
@@ -128,4 +317,14 @@ function get_input() {
 	$line = fgets($handle);
 	
 	return trim( $line ); 
+}
+
+function remove_missing_references( $list ) {
+	foreach ( $list as $idx => $entry ) {
+		$entry->removeMissingReferences( $list );
+		
+		$list[$idx] = $entry;
+	}
+	
+	return $list;
 }
