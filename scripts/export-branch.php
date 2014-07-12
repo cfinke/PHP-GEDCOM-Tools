@@ -27,58 +27,8 @@ if ( $cli_options['gedcom']{0} != '/' || $cli_options['out']{0} != '/' ) {
 	die;
 }
 
-// Read in the existing GEDCOM and build a comprehensive list of entries.
-$handle = fopen( $cli_options['gedcom'], "r" );
-
-$entries = array();
-
-$last_entry = array();
-$last_entry_id = null;
-
-while ( ! feof( $handle ) && $line = fgets( $handle ) ) {
-	$line = trim( $line );
-	if ( substr( $line, 0, 2 ) == '0 ' ) {
-		if ( $last_entry_id ) {
-			$entries[ $last_entry_id ] = new GEDCOM_Entry( implode( "\n", $last_entry ) );
-			$last_entry = array();
-		}
-		
-		$line_parts = explode( " ", $line, 3 );
-		$last_entry_id = $line_parts[1];
-	}
-	
-	$last_entry[] = $line;
-}
-
-$entries[ $last_entry_id ] = new GEDCOM_Entry( implode( "\n", $last_entry ) );
-
-$branch_head = null;
-$possible_branch_heads = array();
-
-foreach ( $entries as $entry_id => $entry ) {
-	if ( in_array( $cli_options['branch'], $entry->getEntryValues( "NAME" ) ) ) {
-		$possible_branch_heads[] = $entry_id;
-	}
-}
-
-fclose( $handle );
-
-if ( count( $possible_branch_heads ) == 1 ) {
-	$branch_head = $possible_branch_heads[0];
-}
-else if ( count( $possible_branch_heads ) > 1 ) {
-	echo count( $possible_branch_heads ) . " possible branches found.\n";
-	
-	foreach ( $possible_branch_heads as $possible_branch_head ) {
-		echo "Did you mean this individual?\n\t" . implode( "\n\t", $entries[ $possible_branch_head ]->data ) . "\n[y/n] ";
-		$input = get_input();
-		
-		if ( strtolower( $input ) == "y" ) {
-			$branch_head = $possible_branch_head;
-			break;
-		}
-	}
-}
+$entries = build_gedcom_array( $cli_options['gedcom'] );
+$branch_head = find_person( $cli_options['branch'], $entries );
 
 if ( ! $branch_head ) {
 	file_put_contents( 'php://stderr', "Couldn't find branch: " . $cli_options['branch'] . "\n" );

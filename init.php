@@ -61,6 +61,67 @@ class GEDCOM_Entry {
 	}
 }
 
+function build_gedcom_array( $gedcom_file_path ) {
+	$handle = fopen( $gedcom_file_path, "r" );
+
+	$entries = array();
+
+	$last_entry = array();
+	$last_entry_id = null;
+
+	while ( ! feof( $handle ) && $line = fgets( $handle ) ) {
+		$line = trim( $line );
+		if ( substr( $line, 0, 2 ) == '0 ' ) {
+			if ( $last_entry_id ) {
+				$entries[ $last_entry_id ] = new GEDCOM_Entry( implode( "\n", $last_entry ) );
+				$last_entry = array();
+			}
+		
+			$line_parts = explode( " ", $line, 3 );
+			$last_entry_id = $line_parts[1];
+		}
+	
+		$last_entry[] = $line;
+	}
+
+	if ( $last_entry_id ) {
+		$entries[ $last_entry_id ] = new GEDCOM_Entry( implode( "\n", $last_entry ) );
+	}
+	
+	fclose( $handle );
+	
+	return $entries;
+}
+
+function find_person( $name, $all_people ) {
+	$possible_people = array();
+
+	foreach ( $all_people as $person_id => $person ) {
+		if ( in_array( $name, str_replace( '/', '', $person->getEntryValues( "NAME" ) ) ) ) {
+			$possible_people[] = $person_id;
+		}
+	}
+
+	if ( count( $possible_people ) == 1 ) {
+		return $possible_people[0];
+	}
+	else if ( count( $possible_people ) > 1 ) {
+		echo count( $possible_people ) . " possible matches found.\n";
+	
+		foreach ( $possible_people as $possible_person ) {
+			echo "Did you mean this individual?\n\t" . implode( "\n\t", $all_people[ $possible_person ]->data ) . "\n[y/n] ";
+			
+			$input = get_input();
+		
+			if ( strtolower( $input ) == "y" ) {
+				return $possible_person;
+			}
+		}
+	}
+	
+	return false;
+}
+
 function get_input() {
 	$handle = fopen( "php://stdin","r" );
 	
