@@ -54,3 +54,43 @@ Example output:
 M:   1340
 F:   1198
 ```
+
+get-date-histogram.php
+----------------------
+Print a histogram of date (month/day) frequencies for a given event type.
+
+Usage: 
+
+`./scripts/get-date-histogram.php --gedcom=/path/to/existing-tree.ged --type=BIRT`
+
+Supported `--type` values are `BIRT` (birth) and `DEAT` (death).
+
+Example output:
+
+```
+01-01   XX
+01-02   X
+01-03   X
+01-04   XX
+01-05   XX
+01-06   XX
+01-07   XXXXX
+01-08   XXXX
+01-09   
+01-10   XXX
+01-11   XXXX
+01-12   XXX
+[...]
+12-20   XXXXX
+12-21   XXXX
+12-22   XXXXXXX
+12-23   XX
+12-24   XXXX
+12-25   
+12-26   X
+12-27   
+12-28   XX
+12-29   XXXX
+12-30   XXX
+12-31   X
+```
