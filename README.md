@@ -1,7 +1,7 @@
 PHP-GEDCOM-Tools
 ================
 
-Tools for interacting with GEDCOM files. These have only been tested on a very small sample of GEDCOM files, but maybe they'll come in handy for you.
+Tools for interacting with GEDCOM (family tree) files. These have only been tested on a very small sample, but maybe they'll come in handy for you.
 
 export-branch.php
 -----------------
