@@ -109,7 +109,7 @@ function find_person( $name, $all_people ) {
 		echo count( $possible_people ) . " possible matches found.\n";
 	
 		foreach ( $possible_people as $possible_person ) {
-			echo "Did you mean this individual?\n\t" . implode( "\n\t", $all_people[ $possible_person ]->data ) . "\n[y/n] ";
+			echo "Did you mean this person?\n\t" . implode( "\n\t", $all_people[ $possible_person ]->data ) . "\n[y/n] ";
 			
 			$input = get_input();
 		
