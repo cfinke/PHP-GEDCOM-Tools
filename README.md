@@ -11,7 +11,7 @@ This is handy for when you have a massive family tree constructed but would like
 
 Usage:
 
-`./scripts/export-branch.php --gedcom=/path/to/existing-tree.ged --branch='John Doe' --out=/path/to/new-tree.ged`
+`./scripts/export-branch.php --gedcom=/path/to/existing-tree.ged --person='John Doe' --out=/path/to/new-tree.ged`
 
-The `--branch` argument must match exactly the name of the person you want at the top of the tree.
+The `--person` argument must match exactly the name of the person you want at the top of the tree.
 

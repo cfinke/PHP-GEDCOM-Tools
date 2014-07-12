@@ -3,22 +3,22 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:b:o:", array( "gedcom:", "branch:", "out:" ) );
+$cli_options = getopt( "g:p:o:", array( "gedcom:", "person:", "out:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
 }
 
-if ( isset( $cli_options['b'] ) ) {
-	$cli_options['branch'] = $cli_options['b'];
+if ( isset( $cli_options['p'] ) ) {
+	$cli_options['person'] = $cli_options['p'];
 }
 
 if ( isset( $cli_options['o'] ) ) {
 	$cli_options['out'] = $cli_options['o'];
 }
 
-if ( empty( $cli_options['gedcom'] ) || empty( $cli_options['branch'] ) || empty( $cli_options['out'] ) ) {
-	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --branch='Johann /Tuchtenhagen/' --out=/path/to/new-tree.ged\n" );
+if ( empty( $cli_options['gedcom'] ) || empty( $cli_options['person'] ) || empty( $cli_options['out'] ) ) {
+	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --person='Johann /Tuchtenhagen/' --out=/path/to/new-tree.ged\n" );
 	die;
 }
 
@@ -28,10 +28,10 @@ if ( $cli_options['gedcom']{0} != '/' || $cli_options['out']{0} != '/' ) {
 }
 
 $entries = build_gedcom_array( $cli_options['gedcom'] );
-$branch_head = find_person( $cli_options['branch'], $entries );
+$branch_head = find_person( $cli_options['person'], $entries );
 
 if ( ! $branch_head ) {
-	file_put_contents( 'php://stderr', "Couldn't find branch: " . $cli_options['branch'] . "\n" );
+	file_put_contents( 'php://stderr', "Couldn't find branch: " . $cli_options['person'] . "\n" );
 	die;
 }
 
@@ -47,7 +47,6 @@ if ( ! $output_handle ) {
 	file_put_contents( 'php://stderr', "Couldn't open file: " . $cli_options['out'] . "\n" );
 	die;
 }
-
 
 foreach ( $export as $entry ) {
 	fwrite( $output_handle, implode( "\n", $entry->data ) . "\n" ); 
