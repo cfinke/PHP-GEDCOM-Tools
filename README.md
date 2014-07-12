@@ -39,3 +39,18 @@ Example output:
 Average age at death: 56 years
 Median age at death: 69 years
 ```
+
+get-gender-count.php
+--------------------
+This will tally the count of the genders represented in a GEDCOM file.
+
+Usage: 
+
+`./scripts/get-gender-counts.php --gedcom=/path/to/existing-tree.ged`
+
+Example output:
+
+```
+M:   1340
+F:   1198
+```
