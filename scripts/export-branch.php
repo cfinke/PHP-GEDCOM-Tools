@@ -38,7 +38,6 @@ if ( ! $branch_head ) {
 // Start buildin' the tree.
 $export = array();
 $export[ 'HEAD' ] = $entries[ 'HEAD' ];
-$relevant_families = array();
 
 addPersonAndChildren( $entries[ $branch_head ] );
 
