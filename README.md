@@ -31,9 +31,11 @@ Calculate the average and median age at death for everyone in a GEDCOM file.
 
 Usage:
 
-`./scripts/get-death-age-stats.php --gedcom=/path/to/existing-tree.ged --age=[minimum age at death]`
+`./scripts/get-death-age-stats.php --gedcom=/path/to/existing-tree.ged --age=[minimum age at death] --sex=[M|F]`
 
 The `--age` parameter can be used to specify a minimum age at death to find, for example, the median age at death of all family members that didn't die before the age of 30.
+
+The `--sex` parameter can be used to filter the results by gender.
 
 Example output:
 

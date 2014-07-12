@@ -92,6 +92,16 @@ class GEDCOM_Entry {
 		return $rv;
 	}
 	
+	function getEntryValue( $type ) {
+		$values = $this->getEntryValues( $type );
+		
+		if ( count( $values ) > 0 ) {
+			return $values[0];
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Given a set of lines like:
 	 *
@@ -139,6 +149,17 @@ class GEDCOM_Entry {
 		
 		return $rv;
 	}
+	
+	function getEntrySubValue( $type, $subtype ) {
+		$values = $this->getEntrySubValues( $type, $subtype );
+		
+		if ( count( $values ) > 0 ) {
+			return $values[0];
+		}
+		
+		return false;
+	}
+
 	
 	/**
 	 * Given a set of lines like this:

@@ -3,7 +3,7 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:a::", array( "gedcom:", "age::" ) );
+$cli_options = getopt( "g:a::s::", array( "gedcom:", "age::", "sex::" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
@@ -13,8 +13,12 @@ if ( isset( $cli_options['a'] ) ) {
 	$cli_options['age'] = $cli_options['a'];
 }
 
+if ( isset( $cli_options['s'] ) ) {
+	$cli_options['sex'] = $cli_options['s'];
+}
+
 if ( empty( $cli_options['gedcom'] ) ) {
-	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --age=[minimum age at death]\n" );
+	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --age=[minimum age at death] --sex=[M|F]\n" );
 	die;
 }
 
@@ -40,15 +44,23 @@ foreach ( $entries as $entry ) {
 		continue;
 	}
 	
-	$birth_dates = $entry->getEntrySubValues( 'BIRT', 'DATE' );
-	$death_dates = $entry->getEntrySubValues( 'DEAT', 'DATE' );
+	if ( $cli_options['sex'] ) {
+		$sex = $entry->getEntryValue( 'SEX' );
+		
+		if ( ! $sex || $sex != $cli_options['sex'] ) {
+			continue;
+		}
+	}
 	
-	if ( empty( $birth_dates ) || empty( $death_dates ) ) {
+	$birth_date = $entry->getEntrySubValue( 'BIRT', 'DATE' );
+	$death_date = $entry->getEntrySubValue( 'DEAT', 'DATE' );
+	
+	if ( ! $birth_date || ! $death_date ) {
 		continue;
 	}
 	
-	$death_timestamp = strtotime( $death_dates[0] );
-	$birth_timestamp = strtotime( $birth_dates[0] );
+	$death_timestamp = strtotime( $death_date );
+	$birth_timestamp = strtotime( $birth_date );
 	
 	if ( $death_timestamp > $this_morning || $birth_timestamp > $this_morning ) {
 		continue;
