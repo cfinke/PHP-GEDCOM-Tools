@@ -98,6 +98,7 @@ Example output:
 12-30   XXX
 12-31   X
 ```
+
 name-histogram.php
 ------------------
 Generate a histogram of name frequency in a GEDCOM file.
@@ -124,4 +125,28 @@ Adele        XX
 Reka         X
 Laurel       X
 Friedericke  X
+```
+
+death-note-histogram.php
+------------------
+Generate a histogram of word frequency in for all DEAT entries in a GEDCOM file.
+
+Usage:
+
+`./scripts/death-note-histogram.php --gedcom=/path/to/existing-tree.ged --sex=[M|F]`
+
+The optional `--sex` parameter can be used to filter the results by gender.
+
+Example output:
+
+```
+cancer         XXXXXXXXXX
+heart          XXXXXXXXX
+accident       XXXXXXX
+attack         XXXXXX
+pneumonia      XXXXXX
+[...]
+drowning       X
+childbirth     X
+encephalo      X
 ```
