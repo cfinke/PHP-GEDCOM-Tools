@@ -25,13 +25,13 @@ Usage:
 
 The `--branch` argument must match exactly the name of the person you want the tree based on.
 
-get-death-age-stats.php
+death-age-stats.php
 -----------------------
 Calculate the average and median age at death for everyone in a GEDCOM file.
 
 Usage:
 
-`./scripts/get-death-age-stats.php --gedcom=/path/to/existing-tree.ged --age=[minimum age at death] --sex=[M|F]`
+`./scripts/death-age-stats.php --gedcom=/path/to/existing-tree.ged --age=[minimum age at death] --sex=[M|F]`
 
 The `--age` parameter can be used to specify a minimum age at death to find, for example, the median age at death of all family members that didn't die before the age of 30.
 
@@ -44,13 +44,13 @@ Average age at death: 56 years
 Median age at death: 69 years
 ```
 
-get-gender-count.php
+gender-count.php
 --------------------
 Tally the count of the genders represented in a GEDCOM file.
 
 Usage: 
 
-`./scripts/get-gender-counts.php --gedcom=/path/to/existing-tree.ged`
+`./scripts/gender-counts.php --gedcom=/path/to/existing-tree.ged`
 
 Example output:
 
@@ -59,13 +59,13 @@ M:   1340
 F:   1198
 ```
 
-get-date-histogram.php
+date-histogram.php
 ----------------------
 Print a histogram of date (month/day) frequencies for a given event type.
 
 Usage: 
 
-`./scripts/get-date-histogram.php --gedcom=/path/to/existing-tree.ged --type=BIRT`
+`./scripts/date-histogram.php --gedcom=/path/to/existing-tree.ged --type=BIRT`
 
 Supported `--type` values are `BIRT` (birth) and `DEAT` (death).
 

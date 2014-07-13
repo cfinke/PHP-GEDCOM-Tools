@@ -17,6 +17,10 @@ if ( isset( $cli_options['s'] ) ) {
 	$cli_options['sex'] = $cli_options['s'];
 }
 
+if ( empty( $cli_options['sex'] ) ) {
+	$cli_options['sex'] = false;
+}
+
 if ( empty( $cli_options['gedcom'] ) ) {
 	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --age=[minimum age at death] --sex=[M|F]\n" );
 	die;
@@ -52,8 +56,16 @@ foreach ( $entries as $entry ) {
 		}
 	}
 	
-	$birth_date = $entry->getEntrySubValue( 'BIRT', 'DATE' );
-	$death_date = $entry->getEntrySubValue( 'DEAT', 'DATE' );
+	$birth_date = trim( str_ireplace( array( "abt ", "about " ), "", (string) $entry->getEntrySubValue( 'BIRT', 'DATE' ) ) );
+	$death_date = trim( str_ireplace( array( "abt ", "about " ), "", (string) $entry->getEntrySubValue( 'DEAT', 'DATE' ) ) );
+	
+	if ( preg_match( "/^[0-9]{4}$/", $birth_date ) ) {
+		$birth_date = $birth_date . '-01-01';
+	}
+
+	if ( preg_match( "/^[0-9]{4}$/", $death_date ) ) {
+		$death_date = $death_date . '-01-01';
+	}
 	
 	if ( ! $birth_date || ! $death_date ) {
 		continue;
