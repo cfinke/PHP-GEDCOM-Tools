@@ -26,16 +26,16 @@ Usage:
 The `--branch` argument must match exactly the name of the person you want the tree based on.
 
 death-age-stats.php
------------------------
+-------------------
 Calculate the average and median age at death for everyone in a GEDCOM file.
 
 Usage:
 
 `./scripts/death-age-stats.php --gedcom=/path/to/existing-tree.ged --age=[minimum age at death] --sex=[M|F]`
 
-The `--age` parameter can be used to specify a minimum age at death to find, for example, the median age at death of all family members that didn't die before the age of 30.
+The optional `--age` parameter can be used to specify a minimum age at death to find, for example, the median age at death of all family members that didn't die before the age of 30.
 
-The `--sex` parameter can be used to filter the results by gender.
+The optional `--sex` parameter can be used to filter the results by gender.
 
 Example output:
 
@@ -45,7 +45,7 @@ Median age at death: 69 years
 ```
 
 gender-count.php
---------------------
+----------------
 Tally the count of the genders represented in a GEDCOM file.
 
 Usage: 
@@ -60,7 +60,7 @@ F:   1198
 ```
 
 date-histogram.php
-----------------------
+------------------
 Print a histogram of date (month/day) frequencies for a given event type.
 
 Usage: 
@@ -97,4 +97,31 @@ Example output:
 12-29   XXXX
 12-30   XXX
 12-31   X
+```
+name-histogram.php
+------------------
+Generate a histogram of name frequency in a GEDCOM file.
+
+Usage:
+
+`./scripts/name-histogram.php --gedcom=/path/to/existing-tree.ged --sex=[M|F]`
+
+The optional `--sex` parameter can be used to filter the results by gender.
+
+Example output:
+
+```
+Marie        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Ann          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+John         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Lee          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Michael      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+William      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+[...]
+Evelyn       XXX
+Wilma        XX
+Adele        XX
+Reka         X
+Laurel       X
+Friedericke  X
 ```
