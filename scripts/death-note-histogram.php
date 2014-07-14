@@ -52,6 +52,8 @@ foreach ( $entries as $entry ) {
 	$death_note = $entry->getEntryValue( 'DEAT' );
 	$words = explode( " ", preg_replace( "/[^a-z\- \n]/", "", strtolower( $death_note ) ) );
 	
+	$words = array_unique( $words );
+	
 	foreach ( $words as $word ) {
 		$word = trim( $word );
 		
