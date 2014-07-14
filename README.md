@@ -65,11 +65,13 @@ Print a histogram of date (month/day) frequencies for a given event type.
 
 Usage: 
 
-`./scripts/date-histogram.php --gedcom=/path/to/existing-tree.ged --type=BIRT`
+`./scripts/date-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT|MARR] --specificity=[day|month]`
 
-Supported `--type` values are `BIRT` (birth) and `DEAT` (death).
+Supported `--type` values are `BIRT` (birth), `DEAT` (death), and `MARR` (marriage).
 
-Example output:
+Supported values for the optional `--specificity` argument are `day` and `month`.
+
+Example output using `--specificity=day`.
 
 ```
 01-01   XX
@@ -97,6 +99,23 @@ Example output:
 12-29   XXXX
 12-30   XXX
 12-31   X
+```
+
+and `month`:
+
+```
+01	XXXXXXXXXXXXXXXXXXX
+02	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+03	XXXXXXXXXXXXXXXXXXXX
+04	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+05	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+06	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+07	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+08	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+09	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+10	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+11	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+12	XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 name-histogram.php
