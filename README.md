@@ -176,7 +176,7 @@ Generate a histogram of the ages of individuals in the tree at certain events in
 
 Usage:
 
-`./scripts/dage-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT]`
+`./scripts/age-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT]`
 
 Example output:
 
