@@ -214,6 +214,10 @@ Usage:
 
 `./scripts/place-progression.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT] --out=/path/to/output.gif --key=[optional Google API key] --icon=[URL of optional icon to use as map marker]`
 
+The `--key` parameter is optional; provide your Google API key in order to avoid rate limiting by IP for the mapping API calls.
+
+The `--icon` parameter is optional; provide the URL of an image to use to mark the map for births/deaths. Note that only its shape will be used; the markers will all be solid red in color.
+
 Example output:
 
 ![](assets/birth-places.gif)
