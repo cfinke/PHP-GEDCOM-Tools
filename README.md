@@ -147,7 +147,7 @@ Friedericke  X
 ```
 
 death-note-histogram.php
-------------------
+------------------------
 Generate a histogram of word frequency in for all DEAT entries in a GEDCOM file.
 
 Usage:
@@ -169,3 +169,51 @@ drowning       X
 childbirth     X
 encephalo      X
 ```
+
+age-histogram.php
+-----------------
+Generate a histogram of the ages of individuals in the tree at certain events in their lives (marriage or death).
+
+Usage:
+
+`./scripts/dage-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT]`
+
+Example output:
+
+```
+0	
+[...]
+15	X
+16	XXX
+17	XXXX
+18	XXXXXXXXXXXXXXXX
+19	XXXXXXXXXXXXXXXXXXXXXXXX
+20	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+21	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+22	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+23	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+24	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+25	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+26	XXXXXXXXXXXXXXXXXXXXXXXX
+27	XXXXXXXXXXXXXXXXXXXX
+28	XXXXXXXXXXXXX
+29	XXXXXXXXXXXX
+30	XXXXXXXXXXXX
+31	XXXXXXXXXX
+32	XXXXXXX
+33	XXX
+[...]
+70	
+```
+
+place-progression.php
+---------------------
+Generate an animated GIF showing birth or death locations on a map over time. United States-only, requires `ImageMagick` and `gifsicle`.
+
+Usage:
+
+`./scripts/place-progression.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT] --out=/path/to/output.gif --key=[optional Google API key] --icon=[URL of optional icon to use as map marker]`
+
+Example output:
+
+![](assets/birth-places.gif)
