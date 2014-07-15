@@ -44,8 +44,8 @@ Average age at death: 56 years
 Median age at death: 69 years
 ```
 
-gender-count.php
-----------------
+gender-counts.php
+-----------------
 Tally the count of the genders represented in a GEDCOM file.
 
 Usage: 
