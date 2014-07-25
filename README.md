@@ -221,3 +221,25 @@ The `--icon` parameter is optional; provide the URL of an image to use to mark t
 Example output:
 
 ![](assets/birth-places.gif)
+
+missing-death-dates.php
+-----------------------
+Output a list of people who are most likely dead but do not have death dates in the GEDCOM file.
+
+Usage:
+
+`./scripts/missing-death-dates.php --gedcom=/path/to/existing-tree.ged --age=[minimum age to consider dead]
+
+The `--age` parameter is optional; the default is 120 (years).
+
+Example output:
+
+```
+Jacob Lenz, born 1754
+Peter Lenz, born 1757
+Peter Koglin, born about 1765
+[...]
+Lydia Emily Latzke, born 15 Jun 1912
+Marie Marthan Siewert, born 6 Oct 1912
+Otto E Siewert Jr., born 10 Oct 1913
+```
