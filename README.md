@@ -228,7 +228,7 @@ Output a list of people who are most likely dead but do not have death dates in 
 
 Usage:
 
-`./scripts/missing-death-dates.php --gedcom=/path/to/existing-tree.ged --age=[minimum age to consider dead]
+`./scripts/missing-death-dates.php --gedcom=/path/to/existing-tree.ged --age=[minimum age to consider dead]`
 
 The `--age` parameter is optional; the default is 120 (years).
 
