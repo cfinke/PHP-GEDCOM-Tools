@@ -3,7 +3,7 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:a::s::", array( "gedcom:", "age::", "sex::" ) );
+$cli_options = getopt( "g:a:s:", array( "gedcom:", "age:", "sex:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
