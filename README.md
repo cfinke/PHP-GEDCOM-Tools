@@ -243,3 +243,21 @@ Lydia Emily Latzke, born 15 Jun 1912
 Marie Marthan Siewert, born 6 Oct 1912
 Otto E Siewert Jr., born 10 Oct 1913
 ```
+
+relationship-inconsistencies.php
+--------------------------------
+Output a list of relationships that are inconsistent and possibly contain errors.
+
+Usage:
+
+`./scripts/missing-death-dates.php --gedcom=/path/to/existing-tree.ged`
+
+Example output:
+
+```
+Paul Hoese (16 Jan 1874) was born after their mother, Jane Hoese, turned 60 (born 24 Sep 1813)
+Carl Lenz (1850) was born after their mother, Christina Lenz, died (born 26 Sep 1797)
+[...]
+Vicky Smith (2 Apr 1932) was born before their parent, Shirley Smith, turned 15 (born abt 1922)
+Justin Jones (2 Jul 1971) was born before their parent, Harold Jones (born 7 Sept 1972)
+```

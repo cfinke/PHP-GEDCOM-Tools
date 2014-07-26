@@ -393,3 +393,18 @@ function tempdir() {
 	
 	return false;
 }
+
+function date_to_timestamp( $date ) {
+	$date = str_ireplace( array( "abt ", "about " ), "", $date );
+	$date = trim( $date );
+	
+	if ( preg_match( "/^[0-9]{4}$/", $date ) ) {
+		$date = $date . '-01-01';
+	}
+	
+	if ( ! preg_match( "/[0-9]{4}/", $date ) ) {
+		return false;
+	}
+	
+	return strtotime( $date );
+}
