@@ -44,6 +44,35 @@ Average age at death: 56 years
 Median age at death: 69 years
 ```
 
+death-age-stats-over-time.php
+-----------------------------
+Calculate the average and median age at death for everyone in a GEDCOM file, subdivided by year or decade of death.
+
+Usage:
+
+`./scripts/death-age-stats-over-time.php --gedcom=/path/to/existing-tree.ged --timeframe=[year|decade] --sex=[M|F]`
+
+The optional `--timeframe` parameter can be used to specify how to report the results. The default value is `year`.
+
+The optional `--sex` parameter can be used to filter the results by gender.
+
+Example output:
+
+```
+Year	Average	Median
+1870	50	64
+1880	36	45
+1890	59	77
+1900	55	61.5
+1910	46	32
+[...]
+1970	70	73.5
+1980	78	79
+1990	80	84.5
+2000	83	87
+2010	87	85.5
+```
+
 gender-counts.php
 -----------------
 Tally the count of the genders represented in a GEDCOM file.
