@@ -290,3 +290,23 @@ Carl Lenz (1850) was born after their mother, Christina Lenz, died (born 26 Sep 
 Vicky Smith (2 Apr 1932) was born before their parent, Shirley Smith, turned 15 (born abt 1922)
 Justin Jones (2 Jul 1971) was born before their parent, Harold Jones (born 7 Sept 1972)
 ```
+
+child-count-histogram.php
+-------------------------
+Print a histogram showing the distribution of the number of children per family (for families that have children).
+
+Usage:
+
+`./scripts/child-count-histogram.php --gedcom=/path/to/existing-tree.ged`
+
+Example output:
+
+```
+1	XXXXXXXXXXXXXXXXXX
+2	XXXXXXXXXXXXXXXXXXXXXXXX
+3	XXXXXXXXXXXXXXXXXXXXXXX
+[...]
+12	XXX
+13	XX
+14	X
+```

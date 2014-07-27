@@ -39,7 +39,7 @@ foreach ( $entries as $entry ) {
 		continue;
 	}
 	
-	$children = getRelatedChildren( $entry );
+	$children = get_related_children( $entry );
 	
 	$birth_timestamp = date_to_timestamp( $entry->getEntrySubValue( 'BIRT', 'DATE' ) );
 	$death_timestamp = date_to_timestamp( $entry->getEntrySubValue( 'DEAT', 'DATE' ) );
@@ -65,60 +65,4 @@ foreach ( $entries as $entry ) {
 			}
 		}
 	}
-}
-
-function getRelatedChildren( $person ) {
-	global $entries;
-	
-	// Get the families where this person is a spouse.
-	$families = $person->getRelatedEntries( 'FAMS' );
-
-	$rv = array();
-
-	foreach ( $families as $family ) {
-		$export[ $family->id ] = $family;
-		
-		$child_relation = null;
-		
-		foreach ( array( 'WIFE', 'HUSB' ) as $spouse_type ) {
-			$spouses = $family->getRelatedEntries( $spouse_type );
-			
-			foreach ( $spouses as $spouse ) {
-				if ( $spouse->id == $person->id ) {
-					$child_relation = ( $spouse_type == 'WIFE' ? '_FREL' : '_MREL' );
-					break 2;
-				}
-			}
-		}
-		
-		$children = $family->getRelatedEntries( 'CHIL' );
-		
-		foreach ( $children as $child ) {
-			// If this child has no adoption event...
-			if ( count( $child->getEntryValues( 'ADOP' ) ) == 0 ) {
-				// Check if there is a parent/child relationship (adopted, biological, guardian, etc.)
-				if ( $child_relation ) {
-					$child_blocks = $family->getSubBlocks( 'CHIL' );
-				
-					foreach ( $child_blocks as $child_block ) {
-						// Check this child's subblock.
-						if ( in_array( $child->id, $child_block->getEntryValues( 'CHIL' ) ) ) {
-							// If any of the child-to-parent relationships are 'Adopted', don't add this person.
-							$relationships = $child_block->getEntrySubValues( 'CHIL', $child_relation );
-						
-							foreach ( $relationships as $relationship ) {
-								if ( strtolower( $relationship ) == 'adopted' ) {
-									continue 3;
-								}
-							}
-						}
-					}
-				}
-				
-				$rv[] = $child;
-			}
-		}
-	}
-	
-	return $rv;
 }
