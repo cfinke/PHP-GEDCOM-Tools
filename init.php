@@ -394,11 +394,11 @@ function tempdir() {
 	return false;
 }
 
-function date_to_timestamp( $date ) {
+function date_to_timestamp( $date, $strict = false ) {
 	$date = str_ireplace( array( "abt ", "about " ), "", $date );
 	$date = trim( $date );
 	
-	if ( preg_match( "/^[0-9]{4}$/", $date ) ) {
+	if ( ! $strict && preg_match( "/^[0-9]{4}$/", $date ) ) {
 		$date = $date . '-01-01';
 	}
 	
@@ -479,5 +479,10 @@ function print_histogram( $histogram, $sort = 'ksort', $type = 'X' ) {
 		else if ( $type == 'counts' ) {
 			echo $label . "\t" . $count . "\n";
 		}
+		else if ( $type == 'cloud-raw' ) {
+			echo str_repeat( '"' . $label . '" ', $count );
+		}
 	}
+	
+	echo "\n";
 }

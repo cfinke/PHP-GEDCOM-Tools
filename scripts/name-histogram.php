@@ -3,7 +3,7 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:s:", array( "gedcom:", "sex:" ) );
+$cli_options = getopt( "g:s:h:", array( "gedcom:", "sex:", "histogram:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
@@ -15,6 +15,14 @@ if ( isset( $cli_options['s'] ) ) {
 
 if ( empty( $cli_options['sex'] ) ) {
 	$cli_options['sex'] = false;
+}
+
+if ( isset( $cli_options['h'] ) ) {
+	$cli_options['histogram'] = $cli_options['h'];
+}
+
+if ( ! isset( $cli_options['histogram'] ) ) {
+	$cli_options['histogram'] = 'X';
 }
 
 if ( empty( $cli_options['gedcom'] ) ) {
@@ -77,4 +85,4 @@ foreach ( $entries as $entry ) {
 	}
 }
 
-print_histogram( $names, 'arsort' );
+print_histogram( $names, 'arsort', $cli_options['histogram'] );

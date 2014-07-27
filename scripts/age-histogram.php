@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
 $cli_options = getopt( "g:t:", array( "gedcom:", "type:", ) );

@@ -3,7 +3,7 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:t:s:", array( "gedcom:", "type:", "specificity:" ) );
+$cli_options = getopt( "g:t:s:h:", array( "gedcom:", "type:", "specificity:", "histogram:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
@@ -23,6 +23,14 @@ if ( isset( $cli_options['s'] ) ) {
 
 if ( empty( $cli_options['specificity'] ) ) {
 	$cli_options['specificity'] = 'day';
+}
+
+if ( isset( $cli_options['h'] ) ) {
+	$cli_options['histogram'] = $cli_options['h'];
+}
+
+if ( ! isset( $cli_options['histogram'] ) ) {
+	$cli_options['histogram'] = 'X';
 }
 
 if ( empty( $cli_options['gedcom'] ) || empty( $cli_options['type'] ) ) {
@@ -69,30 +77,13 @@ foreach ( $entries as $entry ) {
 		continue;
 	}
 	
-	$dates = $entry->getEntrySubValues( $cli_options['type'], 'DATE' );
-	
-	if ( empty( $dates ) ) {
-		continue;
-	}
-	
-	if ( ! $dates[0] ) {
-		continue;
-	}
-	
-	$dates[0] = trim( $dates[0] );
-	
-	if ( strpos( $dates[0], " " ) === false ) {
-		continue;
-	}
-	
-	$this_persons_timestamp = strtotime( $dates[0] );
-	
-	if ( $this_persons_timestamp > strtotime( "-1 day" ) ) {
-		continue;
-	}
+	$this_persons_timestamp = date_to_timestamp( $entry->getEntrySubValue( $cli_options['type'], 'DATE' ), true );
 	
 	if ( $this_persons_timestamp === false ) {
-		file_put_contents( 'php://stderr', "Couldn't parse date: " . $dates[0] . "\n" );
+		continue;
+	}
+	
+	if ( $this_persons_timestamp > strtotime( "-1 day" ) ) {
 		continue;
 	}
 	
@@ -101,4 +92,4 @@ foreach ( $entries as $entry ) {
 	$date_histogram[ $this_persons_date ] += 1;
 }
 
-print_histogram( $date_histogram );
+print_histogram( $date_histogram, 'ksort', $cli_options['histogram'] );
