@@ -3,7 +3,7 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:t:o:i:k:", array( "gedcom:", "type:", "out:", "icon:", "key:" ) );
+$cli_options = getopt( "g:t:o:i:k:y:", array( "gedcom:", "type:", "out:", "icon:", "key:", "start_year:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
@@ -23,6 +23,14 @@ if ( isset( $cli_options['i'] ) ) {
 
 if ( isset( $cli_options['k'] ) ) {
 	$cli_options['key'] = $cli_options['k'];
+}
+
+if ( isset( $cli_options['y'] ) ) {
+	$cli_options['start_year'] = $cli_options['y'];
+}
+
+if ( ! isset( $cli_options['start_year'] ) ) {
+	$cli_options['start_year'] = false;
 }
 
 if ( empty( $cli_options['gedcom'] ) || empty( $cli_options['type'] ) || empty( $cli_options['out'] ) ) {
@@ -65,6 +73,10 @@ foreach ( $entries as $entry ) {
 	$year = date( 'Y', $timestamp );
 	
 	if ( $year === date( 'Y' ) ) {
+		continue;
+	}
+	
+	if ( $cli_options['start_year'] && $year < $cli_options['start_year'] ) {
 		continue;
 	}
 	
