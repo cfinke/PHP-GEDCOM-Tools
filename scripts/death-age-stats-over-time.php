@@ -59,29 +59,14 @@ foreach ( $entries as $entry ) {
 		}
 	}
 	
-	$birth_date = trim( str_ireplace( array( "abt ", "about " ), "", (string) $entry->getEntrySubValue( 'BIRT', 'DATE' ) ) );
-	$death_date = trim( str_ireplace( array( "abt ", "about " ), "", (string) $entry->getEntrySubValue( 'DEAT', 'DATE' ) ) );
-	
-	if ( preg_match( "/^[0-9]{4}$/", $birth_date ) ) {
-		$birth_date = $birth_date . '-01-01';
-	}
-
-	if ( preg_match( "/^[0-9]{4}$/", $death_date ) ) {
-		$death_date = $death_date . '-01-01';
-	}
-	
-	if ( ! $birth_date || ! $death_date ) {
-		continue;
-	}
-	
-	$death_timestamp = strtotime( $death_date );
-	$birth_timestamp = strtotime( $birth_date );
-	
-	if ( $death_timestamp > $this_morning || $birth_timestamp > $this_morning ) {
-		continue;
-	}
+	$birth_timestamp = date_to_timestamp( $entry->getEntrySubValue( 'BIRT', 'DATE' ) );
+	$death_timestamp = date_to_timestamp( $entry->getEntrySubValue( 'DEAT', 'DATE' ) );
 	
 	if ( false === $death_timestamp || false === $birth_timestamp ) {
+		continue;
+	}
+
+	if ( $death_timestamp > $this_morning || $birth_timestamp > $this_morning ) {
 		continue;
 	}
 	

@@ -55,32 +55,9 @@ foreach ( $entries as $entry ) {
 		continue;
 	}
 	
-	$date = trim( str_ireplace( array( "abt ", "about " ), "", (string) $entry->getEntrySubValue( $cli_options['type'], 'DATE' ) ) );
-	
-	if ( ! $date ) {
-		continue;
-	}
-	
-	$date = trim( $date );
-	
-	if ( strpos( $date, " " ) === false ) {
-		continue;
-	}
-	
-	if ( preg_match( "/^[0-9]{4}$/", $date ) ) {
-		$date = $date . '-01-01';
-	}
-
-	
-	if ( ! preg_match( '/[0-9]{4}/', $date ) ) {
-		// Ensure that there's a year present.
-		continue;
-	}
-	
-	$timestamp = strtotime( $date );
+	$timestamp = date_to_timestamp( $entry->getEntrySubValue( $cli_options['type'], 'DATE' ) );
 	
 	if ( $timestamp === false ) {
-		file_put_contents( 'php://stderr', "Couldn't parse date: " . $date . "\n" );
 		continue;
 	}
 	
