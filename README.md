@@ -94,11 +94,13 @@ Print a histogram of date (month/day) frequencies for a given event type.
 
 Usage: 
 
-`./scripts/date-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT|MARR] --specificity=[day|month]`
+`./scripts/date-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT|MARR] --specificity=[day|month] --histogram=[X|counts|cloud-raw]`
 
 Supported `--type` values are `BIRT` (birth), `DEAT` (death), and `MARR` (marriage).
 
 Supported values for the optional `--specificity` argument are `day` and `month`.
+
+The optional `--histogram` parameter determines how the histogram is output. `X` is default and generates the example below. `counts` generates tab-delimited data suitable for pasting into a spreadsheet. `cloud-raw` generates text suitable for pasting into a word cloud generator.
 
 Example output using `--specificity=day`.
 
@@ -153,9 +155,11 @@ Generate a histogram of name frequency in a GEDCOM file.
 
 Usage:
 
-`./scripts/name-histogram.php --gedcom=/path/to/existing-tree.ged --sex=[M|F]`
+`./scripts/name-histogram.php --gedcom=/path/to/existing-tree.ged --sex=[M|F] --histogram=[X|counts|cloud-raw]`
 
 The optional `--sex` parameter can be used to filter the results by gender.
+
+The optional `--histogram` parameter determines how the histogram is output. `X` is default and generates the example below. `counts` generates tab-delimited data suitable for pasting into a spreadsheet. `cloud-raw` generates text suitable for pasting into a word cloud generator.
 
 Example output:
 
@@ -181,9 +185,11 @@ Generate a histogram of word frequency in for all DEAT entries in a GEDCOM file.
 
 Usage:
 
-`./scripts/death-note-histogram.php --gedcom=/path/to/existing-tree.ged --sex=[M|F]`
+`./scripts/death-note-histogram.php --gedcom=/path/to/existing-tree.ged --sex=[M|F] --histogram=[X|counts|cloud-raw]`
 
 The optional `--sex` parameter can be used to filter the results by gender.
+
+The optional `--histogram` parameter determines how the histogram is output. `X` is default and generates the example below. `counts` generates tab-delimited data suitable for pasting into a spreadsheet. `cloud-raw` generates text suitable for pasting into a word cloud generator.
 
 Example output:
 
@@ -205,7 +211,9 @@ Generate a histogram of the ages of individuals in the tree at certain events in
 
 Usage:
 
-`./scripts/age-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT]`
+`./scripts/age-histogram.php --gedcom=/path/to/existing-tree.ged --type=[BIRT|DEAT] --histogram=[X|counts|cloud-raw]`
+
+The optional `--histogram` parameter determines how the histogram is output. `X` is default and generates the example below. `counts` generates tab-delimited data suitable for pasting into a spreadsheet. `cloud-raw` generates text suitable for pasting into a word cloud generator.
 
 Example output:
 
@@ -297,7 +305,9 @@ Print a histogram showing the distribution of the number of children per family 
 
 Usage:
 
-`./scripts/child-count-histogram.php --gedcom=/path/to/existing-tree.ged`
+`./scripts/child-count-histogram.php --gedcom=/path/to/existing-tree.ged --histogram=[X|counts|cloud-raw]`
+
+The optional `--histogram` parameter determines how the histogram is output. `X` is default and generates the example below. `counts` generates tab-delimited data suitable for pasting into a spreadsheet. `cloud-raw` generates text suitable for pasting into a word cloud generator.
 
 Example output:
 

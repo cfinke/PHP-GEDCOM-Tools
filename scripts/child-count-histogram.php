@@ -3,7 +3,7 @@
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:", array( "gedcom:", ) );
+$cli_options = getopt( "g:h:", array( "gedcom:", "histogram:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
@@ -12,6 +12,14 @@ if ( isset( $cli_options['g'] ) ) {
 if ( empty( $cli_options['gedcom'] ) ) {
 	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged\n" );
 	die;
+}
+
+if ( isset( $cli_options['h'] ) ) {
+	$cli_options['histogram'] = $cli_options['h'];
+}
+
+if ( ! isset( $cli_options['histogram'] ) ) {
+	$cli_options['histogram'] = 'X';
 }
 
 if ( $cli_options['gedcom']{0} != '/' ) {
@@ -56,4 +64,4 @@ if ( isset( $histogram[ 0 ] ) ) {
 	unset( $histogram[ 0 ] );
 }
 
-print_histogram( $histogram );
+print_histogram( $histogram, 'ksort', $cli_options['histogram'] );

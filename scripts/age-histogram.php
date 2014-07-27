@@ -1,10 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-
 require dirname( dirname( __FILE__ ) ) . "/init.php";
 
-$cli_options = getopt( "g:t:", array( "gedcom:", "type:", ) );
+$cli_options = getopt( "g:t:h:", array( "gedcom:", "type:", "histogram:" ) );
 
 if ( isset( $cli_options['g'] ) ) {
 	$cli_options['gedcom'] = $cli_options['g'];
@@ -16,6 +15,15 @@ if ( isset( $cli_options['t'] ) ) {
 
 if ( isset( $cli_options['t'] ) ) {
 	$cli_options['type'] = $cli_options['t'];
+}
+
+
+if ( isset( $cli_options['h'] ) ) {
+	$cli_options['histogram'] = $cli_options['h'];
+}
+
+if ( ! isset( $cli_options['histogram'] ) ) {
+	$cli_options['histogram'] = 'X';
 }
 
 if ( empty( $cli_options['gedcom'] ) || empty( $cli_options['type'] ) ) {
@@ -36,10 +44,6 @@ if ( false === $entries ) {
 }
 
 $histogram = array();
-
-for ( $i = 0; $i <= 120; $i++ ) {
-	$histogram[ $i ] = 0;
-}
 
 $this_morning = strtotime( date( "Y-m-d 00:00:00" ) );
 
@@ -103,35 +107,33 @@ foreach ( $entries as $entry ) {
 		$person = $entries[ $person_id ];
 		
 		// Now, check date against BIRT DATE
-		$birth_date = trim( str_ireplace( array( "abt ", "about " ), "", (string) $person->getEntrySubValue( 'BIRT', 'DATE' ) ) );
-
-		if ( preg_match( "/^[0-9]{4}$/", $birth_date ) ) {
-			$birth_date = $birth_date . '-01-01';
-		}
-		
-		if ( ! preg_match( '/[0-9]{4}/', $birth_date ) ) {
-			// Ensure that there's a year present.
-			continue;
-		}
-
-		if ( ! $birth_date ) {
-			continue;
-		}
-		
-		$birth_timestamp = strtotime( $birth_date );
-	
-		if ( $birth_timestamp > $this_morning ) {
-			continue;
-		}
+		$birth_timestamp = date_to_timestamp( $person->getEntrySubValue( 'BIRT', 'DATE' ) );
 
 		if ( false === $birth_timestamp ) {
 			continue;
 		}
-	
+		
+		if ( $birth_timestamp > $this_morning ) {
+			continue;
+		}
+
 		$histogram_value = round( ( $timestamp - $birth_timestamp ) / 60 / 60 / 24 / 365 );
 	
-		$histogram[ $histogram_value ] += 1;
+		if ( ! isset( $histogram[ $histogram_value ] ) ) {
+			$histogram[ $histogram_value ] = 1;
+		}
+		else {
+			$histogram[ $histogram_value ] += 1;
+		}
 	}
 }
 
-print_histogram( $histogram );
+$oldest_wed = max( array_keys( $histogram ) );
+
+for ( $i = 1; $i < $oldest_wed; $i++ ) {
+	if ( ! isset( $histogram[ $i ] ) ) {
+		$histogram[ $i ] = 0;
+	}
+}
+
+print_histogram( $histogram, 'ksort', $cli_options['histogram'] );
