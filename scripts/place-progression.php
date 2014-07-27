@@ -163,7 +163,13 @@ foreach ( $all_years as $year => $places ) {
 	
 	$diffed_filename = tempnam( $image_dir, "php-gedcom" );
 	
-	shell_exec( "compare " . escapeshellarg( $tmp_filename ) . " "  . escapeshellarg( $blank_map ) . " -lowlight-color transparent -highlight-color '#f55b53' -compose src -fuzz '3%' " . escapeshellarg( $diffed_filename ) . ".gif" );
+	$highlight_color = 'f55b53';
+
+	if ( $cli_options['type'] == 'DEAT' ) {
+		$highlight_color = 'ffff00';
+	}
+	
+	shell_exec( "compare " . escapeshellarg( $tmp_filename ) . " "  . escapeshellarg( $blank_map ) . " -lowlight-color transparent -highlight-color '#" . $highlight_color . "' -compose src -fuzz '3%' " . escapeshellarg( $diffed_filename ) . ".gif" );
 	
 	unlink( $tmp_filename );
 	unlink( $diffed_filename );
