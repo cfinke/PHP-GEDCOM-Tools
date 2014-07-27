@@ -2,7 +2,6 @@
 <?php
 
 require dirname( dirname( __FILE__ ) ) . "/init.php";
-require dirname( dirname( __FILE__ ) ) . "/lib/AnimGif.php";
 
 $cli_options = getopt( "g:t:o:i:k:", array( "gedcom:", "type:", "out:", "icon:", "key:" ) );
 
