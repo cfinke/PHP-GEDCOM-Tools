@@ -56,8 +56,4 @@ if ( isset( $histogram[ 0 ] ) ) {
 	unset( $histogram[ 0 ] );
 }
 
-ksort( $histogram );
-
-foreach ( $histogram as $value => $count ) {
-	echo $value . "\t" . str_repeat( 'X', $count ) . "\n";
-}
+print_histogram( $histogram );

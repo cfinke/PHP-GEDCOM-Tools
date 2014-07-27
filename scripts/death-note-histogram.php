@@ -34,8 +34,6 @@ if ( false === $entries ) {
 	die;	
 }
 
-$words_for_histogram = "";
-
 foreach ( $entries as $entry ) {
 	if ( $entry->block_type != 'INDI' ) {
 		continue;
@@ -73,14 +71,4 @@ foreach ( $entries as $entry ) {
 	}
 }
 
-arsort( $all_words );
-
-$longest_word = 0;
-
-foreach ( $all_words as $word => $count ) {
-	$longest_word = max( strlen( $word ), $longest_word );
-}
-
-foreach ( $all_words as $word => $count ) {
-	echo str_pad( $word, $longest_word + 1 ) . str_repeat( 'X', $count ) . "\n";
-}
+print_histogram( $all_words, 'arsort' );

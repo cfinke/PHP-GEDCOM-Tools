@@ -77,14 +77,4 @@ foreach ( $entries as $entry ) {
 	}
 }
 
-arsort( $names );
-
-$longest_name = 0;
-
-foreach ( $names as $name => $count ) {
-	$longest_name = max( strlen( $name ), $longest_name );
-}
-
-foreach ( $names as $name => $count ) {
-	echo str_pad( $name, $longest_name + 1 ) . str_repeat( 'X', $count ) . "\n";
-}
+print_histogram( $names, 'arsort' );

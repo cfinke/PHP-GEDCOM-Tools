@@ -133,8 +133,4 @@ foreach ( $entries as $entry ) {
 	}
 }
 
-ksort( $histogram );
-
-foreach ( $histogram as $value => $count ) {
-	echo $value . "\t" . str_repeat( 'X', $count ) . "\n";
-}
+print_histogram( $histogram );

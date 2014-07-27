@@ -462,3 +462,22 @@ function get_related_children( $person, $entries ) {
 	
 	return $rv;
 }
+
+function print_histogram( $histogram, $sort = 'ksort', $type = 'X' ) {
+	call_user_func_array( $sort, array( &$histogram ) );
+	
+	$longest_label_length = 0;
+	
+	foreach ( $histogram as $label => $count ) {
+		$longest_label_length = max( strlen( $label ), $longest_label_length );
+	}
+	
+	foreach ( $histogram as $label => $count ) {
+		if ( $type == 'X' ) {
+			echo str_pad( $label, $longest_label_length, ' ', STR_PAD_LEFT ) . " " . str_repeat( 'X', $count ) . "\n";
+		}
+		else if ( $type == 'counts' ) {
+			echo $label . "\t" . $count . "\n";
+		}
+	}
+}

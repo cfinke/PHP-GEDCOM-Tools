@@ -101,8 +101,4 @@ foreach ( $entries as $entry ) {
 	$date_histogram[ $this_persons_date ] += 1;
 }
 
-ksort( $date_histogram );
-
-foreach ( $date_histogram as $date => $count ) {
-	echo $date . "\t" . str_repeat( 'X', $count ) . "\n";
-}
+print_histogram( $date_histogram );
