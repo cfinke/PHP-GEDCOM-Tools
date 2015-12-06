@@ -18,7 +18,7 @@ if ( isset( $cli_options['o'] ) ) {
 }
 
 if ( empty( $cli_options['gedcom'] ) || empty( $cli_options['person'] ) || empty( $cli_options['out'] ) ) {
-	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --person='Johann /Tuchtenhagen/' --out=/path/to/new-tree.ged\n" );
+	file_put_contents( 'php://stderr', "Usage: " . basename( __FILE__ ) . " --gedcom=/path/to/tree.ged --person='Johann Tuchtenhagen' --out=/path/to/new-tree.ged\n" );
 	die;
 }
 
