@@ -80,7 +80,19 @@ foreach ( $entries as $entry ) {
 		continue;
 	}
 	
-	$places[ $year ][] = $place;
+	$origins = array();
+	
+	foreach ( get_parents( $entry, $entries ) as $parent ) {
+		$origin = $parent->getEntrySubValue( $cli_options['type'], 'PLAC' );
+		
+		if ( ! $origin ) {
+			continue;
+		}
+		
+		$origins[] = $origin;
+	}
+	
+	$places[ $year ][] = array( 'place' => $place, 'origins' => $origins );
 }
 
 ksort( $places );
@@ -131,7 +143,18 @@ foreach ( $all_years as $year => $places ) {
 			$image_url .= 'icon:' . urlencode( $cli_options['icon'] ) . '|';
 		}
 		
-		$image_url .= implode( "|", array_map( 'urlencode', $places ) );
+		foreach ( $places as $place ) {
+			$image_url .= urlencode( $place['place'] ) . "|";
+		}
+		
+		foreach ( $places as $place ) {
+			if ( ! empty( $place['origins'] ) ) {
+				foreach ( $place['origins'] as $origin ) {
+					$image_url .= '&path=weight:2|' . urlencode( $origin ) . '|' . urlencode( $place['place'] );
+				}
+			}
+			
+		}
 	}
 	
 	echo "Getting image for $year...\n";

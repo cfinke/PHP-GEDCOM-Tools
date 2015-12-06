@@ -486,3 +486,35 @@ function print_histogram( $histogram, $sort = 'ksort', $type = 'X' ) {
 	
 	echo "\n";
 }
+
+function get_parents( $person, $entries ) {
+	$rv = array();
+	
+	// Get the families where this person is a child.
+	$families = $person->getRelatedEntries( 'FAMC' );
+
+	foreach ( $families as $family ) {
+		$child_blocks = $family->getSubBlocks( 'CHIL' );
+
+		$export[ $family->id ] = $family;
+
+		foreach ( $child_blocks as $child_block ) {
+			// Check this child's subblock.
+			if ( in_array( $person->id, $child_block->getEntryValues( 'CHIL' ) ) ) {
+				$husbandId = $family->getEntryValue( 'HUSB' );
+				
+				if ( $husbandId ) {
+					$rv[] = $entries[ $husbandId ];
+				}
+				
+				$wifeId = $family->getEntryValue( 'WIFE' );
+				
+				if ( $wifeId ) {
+					$rv[] = $entries[ $wifeId ];
+				}
+			}
+		}
+	}
+	
+	return $rv;
+}
